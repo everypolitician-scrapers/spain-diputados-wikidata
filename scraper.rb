@@ -11,4 +11,3 @@ names = {
 ids = EveryPolitician::Wikidata.wdq('claim[463:21857364]')
 
 EveryPolitician::Wikidata.scrape_wikidata(ids: ids, names: { es: names.values.flatten.uniq }, output: false)
-warn EveryPolitician::Wikidata.notify_rebuilder
