@@ -8,6 +8,9 @@ names = {
   11 => WikiData::Category.new('Categoría:Diputados_de_la_XI_Legislatura_de_España', 'es').member_titles,
 }
 
-ids = EveryPolitician::Wikidata.wdq('claim[463:21857364]')
+ids = {
+  10 => EveryPolitician::Wikidata.wdq('claim[463:2498034]'),
+  11 => EveryPolitician::Wikidata.wdq('claim[463:21857364]'),
+}
 
-EveryPolitician::Wikidata.scrape_wikidata(ids: ids, names: { es: names.values.flatten.uniq }, output: false)
+EveryPolitician::Wikidata.scrape_wikidata(ids: ids.values.inject(&:|), names: { es: names.values.inject(&:|) })
