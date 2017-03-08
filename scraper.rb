@@ -8,10 +8,16 @@ names = {
   11 => WikiData::Category.new('Categoría:Diputados_de_la_XI_Legislatura_de_España', 'es').member_titles,
 }
 
-sparq = 'SELECT ?item WHERE { ?item wdt:P463 wd:Q%s . }'
-ids = {
-  10 => EveryPolitician::Wikidata.sparql(sparq % 2498034),
-  11 => EveryPolitician::Wikidata.sparql(sparq % 21857364),
-}
+sparq = <<EOQ
+  SELECT ?item
+  WHERE {
+      VALUES ?term { wd:Q2498034 wd:Q21857364 }
+      ?item p:P39 ?position_statement .
+      ?position_statement ps:P39 wd:Q18171345 ;
+                          pq:P2937 ?term .
+  }
+EOQ
 
-EveryPolitician::Wikidata.scrape_wikidata(ids: ids.values.inject(&:|), names: { es: names.values.inject(&:|) })
+ids = EveryPolitician::Wikidata.sparql(sparq)
+
+EveryPolitician::Wikidata.scrape_wikidata(ids: ids, names: { es: names.values.inject(&:|) })
